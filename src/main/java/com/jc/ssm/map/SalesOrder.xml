@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jc.ssm.dao.SalesOrderDao">
+	<insert id="insert" parameterType="com.jc.ssm.model.SalesOrder" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		sales_order(userId,amazonOrderId,sellerOrderId,PurchaseDate,LastUpdateDate,OrderStatus,FulfillmentChannel,
+		SalesChannel,OrderChannel,ShipServiceLevel,Name,AddressLine1,AddressLine2,AddressLine3,City,County,District,StateOrRegion,
+		PostalCode,CountryCode,Phone,Amount,CurrencyCode,NumberOfItemsShipped,NumberOfItemsUnshipped,PaymentMethod,MarketplaceId,
+		BuyerEmail,BuyerName,ShipmentServiceLevelCategory,ShippedByAmazonTFM,CbaDisplayableShippingLabel,OrderType,EarliestShipDate,
+		LatestShipDate,EarliestDeliveryDate,LatestDeliveryDate)
+		values(#{userId},#{amazonOrderId},#{sellerOrderId},#{purchaseDate},#{lastUpdateDate},#{orderStatus},
+		#{fulfillmentChannel},#{salesChannel},#{orderChannel},#{shipServiceLevel},#{name},#{addressLine1},#{addressLine2},
+		#{addressLine3},#{city},#{county},#{district},#{stateOrRegion},#{postalCode},#{countryCode},#{phone},#{amount},
+		#{currencyCode},#{numberOfItemsShipped},#{numberOfItemsUnshipped},#{paymentMethod},#{marketplaceId},#{buyerEmail},
+		#{buyerName},#{shipmentServiceLevelCategory},#{shippedByAmazonTFM},#{cbaDisplayableShippingLabel},#{orderType},
+		#{earliestShipDate},#{latestShipDate},#{earliestDeliveryDate},#{latestDeliveryDate})
+	</insert>
+	<update id="update" parameterType="com.jc.ssm.model.SalesOrder">
+		update sales_order set amazonOrderId=#{amazonOrderId},sellerOrderId=#{sellerOrderId},purchaseDate=#{purchaseDate},
+		lastUpdateDate=#{lastUpdateDate},orderStatus=#{orderStatus},fulfillmentChannel=#{fulfillmentChannel},
+		salesChannel=#{salesChannel},orderChannel=#{orderChannel},shipServiceLevel=#{shipServiceLevel},name=#{name},
+		addressLine1=#{addressLine1},addressLine2=#{addressLine2},addressLine3=#{addressLine3},city=#{city},
+		county=#{county},district=#{district},stateOrRegion=#{stateOrRegion},postalCode=#{postalCode},
+		countryCode=#{countryCode},phone=#{phone},amount=#{amount},currencyCode=#{currencyCode},
+		numberOfItemsShipped=#{numberOfItemsShipped},numberOfItemsUnshipped=#{numberOfItemsUnshipped},
+		paymentMethod=#{paymentMethod},marketplaceId=#{marketplaceId},buyerEmail=#{buyerEmail},buyerName=#{buyerName},
+		shipmentServiceLevelCategory=#{shipmentServiceLevelCategory},shippedByAmazonTFM=#{shippedByAmazonTFM},
+		cbaDisplayableShippingLabel=#{cbaDisplayableShippingLabel},orderType=#{orderType},earliestShipDate=#{earliestShipDate},
+		latestShipDate=#{latestShipDate},earliestDeliveryDate=#{earliestDeliveryDate},latestDeliveryDate=#{latestDeliveryDate}
+		where id =#{id}
+	</update>
+	<delete id="delete" parameterType="com.jc.ssm.model.SalesOrder">
+		<![CDATA[ 
+			delete from sales_order where id = #{id}
+        ]]>
+	</delete>
+	<delete id="deleteById" parameterType="int">
+		delete from sales_order
+		where id = #{id}
+	</delete>
+	<select id="findById" resultType="com.jc.ssm.model.SalesOrder">
+		select * from sales_order
+		where id = #{id}
+	</select>
+	<select id="findByAmazonOrderId" resultType="com.jc.ssm.model.SalesOrder">
+		select * from sales_order
+		where AmazonOrderId = #{amazonOrderId} and userId= #{userId}
+	</select>
+	<select id="search" resultType="com.jc.ssm.model.SalesOrder">
+		select * from sales_order 
+		where userId = #{userId} and purchaseDate &gt;= #{purchaseDateStart} and purchaseDate &lt; #{purchaseDateEnd}
+		<if test="orderStatus != null and orderStatus!='' and orderStatus != 'all'"> and orderStatus = #{orderStatus}</if>
+		order by purchaseDate desc
+		limit #{rowNo}, #{pageSize}
+	</select>
+	<select id="searchCount" resultType="Integer">
+		select count(*) from sales_order 
+		where userId = #{userId} and purchaseDate &gt;= #{purchaseDateStart} and purchaseDate &lt; #{purchaseDateEnd}
+		<if test="orderStatus != null and orderStatus!='' and orderStatus != 'all'"> and orderStatus = #{orderStatus}</if>
+	</select>
+</mapper>

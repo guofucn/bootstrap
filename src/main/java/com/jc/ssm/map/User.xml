@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jc.ssm.dao.UserDao">
+	<select id="getById" resultType="com.jc.ssm.model.User" >
+		select * from user where id =#{id}
+	</select>
+	<select id="getByUserName" resultType="com.jc.ssm.model.User" >
+		select * from user where userName =#{userName}
+	</select>
+	<delete id="deleteById" parameterType="int">
+		delete user where id = #{id}
+	</delete>
+	<delete id="delete" parameterType="com.jc.ssm.model.User">
+		delete user where id = #{id}
+	</delete>
+	<update id="update" parameterType="com.jc.ssm.model.User">
+		update user set userName = #{userName}, password = #{password}
+		where id = #{id}
+	</update>
+	<update id="updatePassword">
+		update user set password = #{password}
+		where id = #{id}
+	</update>
+</mapper>

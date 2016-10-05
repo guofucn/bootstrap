@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jc.ssm.dao.ShopDao">
+	<insert id="insert" parameterType="com.jc.ssm.model.Shop">
+		insert into shop(userId, shopName, placeId)
+		values(#{userId}, #{shopName},  #{placeId})
+	</insert>
+	<select id="getById" resultType="com.jc.ssm.model.Shop" >
+		select a.id, a.userId, a.shopName, a.placeId, b.marketPlaceId, b.countryNo, b.country, b.url 
+		from shop a left join market_place b on a.placeId = b.id
+		where a.id =#{id}
+	</select>
+	<select id="listShop" resultType="com.jc.ssm.model.Shop" >
+		select a.id, a.userId, a.shopName, a.placeId, b.marketPlaceId, b.countryNo, b.country, b.url 
+		from shop a left join market_place b on a.placeId = b.id
+		where a.userId = #{userId}
+	</select>
+	<delete id="deleteById" parameterType="int">
+		delete from shop where id = #{id}
+	</delete>
+	<delete id="delUserShop" >
+		delete from shop where id = #{id} and userId = #{userId}
+	</delete>
+	<delete id="delete" parameterType="com.jc.ssm.model.Shop">
+		<![CDATA[ 
+			delete from shop where id = #{id}
+        ]]>   
+	</delete>
+	<update id="update" parameterType="com.jc.ssm.model.Shop">
+		update shop set placeId = #{placeId}, userId = #{userId}, shopName = #{shopName}
+		where id = #{id}
+	</update>
+</mapper>
